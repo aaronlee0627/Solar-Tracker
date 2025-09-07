@@ -1,0 +1,60 @@
+// Actuator_Test_Once.ino
+// Drives an actuator out (extend) once, pauses, then in (retract) once, then stops.
+
+const int ACT_EXTEND_PIN = 7;   // to H-bridge/relay: HIGH = extend
+const int ACT_RETRACT_PIN = 8;  // to H-bridge/relay: HIGH = retract
+
+// Optional feedback pot (comment out if not used)
+// const int ACT_FEEDBACK_PIN = A2;
+
+const unsigned long MOVE_MS  = 2000;  // how long to move each way (adjust!)
+const unsigned long PAUSE_MS = 1000;  // pause between actions
+
+void stopActuator() {
+  digitalWrite(ACT_EXTEND_PIN, LOW);
+  digitalWrite(ACT_RETRACT_PIN, LOW);
+}
+
+void extendFor(unsigned long ms) {
+  digitalWrite(ACT_RETRACT_PIN, LOW);
+  digitalWrite(ACT_EXTEND_PIN, HIGH);
+  delay(ms);
+  stopActuator();
+}
+
+void retractFor(unsigned long ms) {
+  digitalWrite(ACT_EXTEND_PIN, LOW);
+  digitalWrite(ACT_RETRACT_PIN, HIGH);
+  delay(ms);
+  stopActuator();
+}
+
+void setup() {
+  pinMode(ACT_EXTEND_PIN, OUTPUT);
+  pinMode(ACT_RETRACT_PIN, OUTPUT);
+  stopActuator();
+
+  Serial.begin(115200);
+  delay(300);
+  Serial.println(F("Actuator one-shot: extend, pause, retract, pause."));
+
+  Serial.println(F("Extending..."));
+  extendFor(MOVE_MS);
+
+  Serial.println(F("Pause."));
+  delay(PAUSE_MS);
+
+  Serial.println(F("Retracting..."));
+  retractFor(MOVE_MS);
+
+  Serial.println(F("Pause."));
+  delay(PAUSE_MS);
+
+  stopActuator();
+  Serial.println(F("Done. Halting."));
+}
+
+void loop() {
+  // Do nothing — one-shot sequence ran in setup()
+  // Optionally: low-power sleep here if desired.
+}
