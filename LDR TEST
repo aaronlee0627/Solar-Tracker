@@ -1,0 +1,20 @@
+// LDR_Read.ino
+const int LDR_LEFT_PIN  = A0;
+const int LDR_RIGHT_PIN = A1;
+
+void setup() {
+  Serial.begin(115200);
+  delay(300);
+}
+
+void loop() {
+  int leftVal  = analogRead(LDR_LEFT_PIN);   
+  int rightVal = analogRead(LDR_RIGHT_PIN);  
+
+  Serial.print(F("Left: "));
+  Serial.print(leftVal);
+  Serial.print(F("\tRight: "));
+  Serial.println(rightVal);
+
+  delay(200);
+}
