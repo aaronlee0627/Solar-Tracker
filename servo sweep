@@ -1,0 +1,25 @@
+const int SERVO_PIN = 9;
+Servo sweeper;
+
+void setup() {
+  sweeper.attach(SERVO_PIN);
+  delay(300);
+
+  // 0 -> 180
+  for (int pos = 0; pos <= 180; pos++) {
+    sweeper.write(pos);
+    delay(10);
+  }
+  // 180 -> 0
+  for (int pos = 180; pos >= 0; pos--) {
+    sweeper.write(pos);
+    delay(10);
+  }
+
+  // Optional: stop sending pulses to prevent jitter
+  // sweeper.detach();
+}
+
+void loop() {
+  // Do nothing — sweep ran once in setup()
+}
